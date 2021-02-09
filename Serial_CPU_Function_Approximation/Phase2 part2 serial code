@@ -1,0 +1,59 @@
+    for learning_rate_Index in range(0, NUM_LEARNING_RATES):
+        print("learning_rate_Index", learning_rate_Index)
+        thread_id = 0 + NUM_FS * NUM_NEURONS * learning_rate_Index
+        for j in range(0, NUM_FS):
+            for k in range(0, NUM_NEURONS):
+                #print("k ,thread_id", k, thread_id)
+                #print("thread_id", thread_id)
+                feature_space_blockID = j
+                radius_cal = ctypes.CDLL("/home/asim/Function Approximation Serial CPU/kernel_codes/phase2_calculateradius.so")
+                print("fail is here")
+                radius_cal.phase2_calculateradius.argtypes = [ctypes.c_int, ctypes.c_int, ctypes.c_int, ctypes.c_int,
+                                                            ctypes.c_int, ctypes.c_int,
+                                                            np.ctypeslib.ndpointer(dtype=np.int32, flags="C_CONTIGUOUS"),
+                                                            np.ctypeslib.ndpointer(dtype=np.int32, flags="C_CONTIGUOUS"),
+                                                            np.ctypeslib.ndpointer(dtype=np.int32, flags="C_CONTIGUOUS"),
+                                                            np.ctypeslib.ndpointer(dtype=np.float32, flags="C_CONTIGUOUS"),
+                                                            np.ctypeslib.ndpointer(dtype=np.int32, flags="C_CONTIGUOUS"),
+                                                            np.ctypeslib.ndpointer(dtype=np.float32, flags="C_CONTIGUOUS"),
+                                                            np.ctypeslib.ndpointer(dtype=np.float32, flags="C_CONTIGUOUS"),
+                                                            np.ctypeslib.ndpointer(dtype=np.float32, flags="C_CONTIGUOUS"),
+                                                            np.ctypeslib.ndpointer(dtype=np.int32, flags="C_CONTIGUOUS"),
+                                                            np.ctypeslib.ndpointer(dtype=np.float32, flags="C_CONTIGUOUS"),
+                                                            ctypes.c_int, ctypes.c_int, ctypes.c_int]
+                print("fail is after  array")
+    #Calling kernel function with Parameters. Lookout for InOut or In
+                returnVale = radius_cal.phase2_calculateradius(
+                                   np.int32(NUM_NEURONS),
+                                   np.int32(NUM_NETS),
+                                   np.int32(data_inp_1.shape[0]),
+                                   np.int32(NUM_FEATURES),
+                                   np.int32(NUM_FS),
+                                   np.int32(total_num_features_all_featurespaces),
+                                   neurons_per_nets,
+                                   list_num_features_featurespaces,
+                                   cumulative_no_features_featurespace,
+                                   base_map,
+                                   min_dist_pos,
+                                   min_dist_array,
+                                   distance_base_map,
+                                   radius_base_map,
+                                   active_centers,
+                                   data_inp,
+                                   thread_id,
+                                   feature_space_blockID,
+                                   learning_rate_Index
+                                     )
+                thread_id = thread_id + 1
+            print("Partion")
+        print("Learning rate")
+    print("outer Learning rate")
+    print("radius_base_map")
+    print(active_centers)
+    print("radius_base_map")
+    print(radius_base_map)
+    print("base_map")
+    print(base_map)
+    print("distance_base_map")
+    print(distance_base_map)
+    
